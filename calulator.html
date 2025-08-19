@@ -1,213 +1,142 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/calulator.html b/calulator.html
-index 811b113804c9cb5a3b3d6f7b08a4333ea2677353..94eeaea485f86ad71f513c56be999fa569aac6e9 100644
---- a/calulator.html
-+++ b/calulator.html
-@@ -6,115 +6,137 @@
-                 background-image: url('wow.png');
-                 background-size: cover;
-                 font-family: Arial, sans-serif;
-                 color: #333;
-                 margin: 0;
-                 padding: 0;
-                 display: flex;
-                 justify-content: center;
-                 align-items: center;
-                 height: 100vh;
-             }
- 
-             .center {
-                background: rgba(255, 255, 255, 0.19);
-                 border-radius: 16px;
-                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                 padding: 30px;
-                 text-align: center;
-                 width: 300px;
-                 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-                 backdrop-filter: blur(4.8px);
-                -webkit-backdrop-filter: blur(4.8px);
-                 border: 1px solid rgba(255, 255, 255, 0.71);
-             }
- 
--            h1 {
--                color: #24cfd2;
--                margin-bottom: 20px;
--                font-size: 24px;
--            }
--
--            label {
--                display: block;
--                margin-bottom: 10px;
--                font-weight: bold;
--            }
-+            label {
-+                display: block;
-+                margin-bottom: 10px;
-+                font-weight: bold;
-+            }
- 
-             input[type="number"] {
-                 width: calc(100% - 22px);
-                 padding: 10px;
-                 margin-bottom: 20px;
-                 border: 1px solid #dbf956;
-                 border-radius: 5px;
-                 box-sizing: border-box;
-             }
- 
--            input[type="button"] {
--                background-color: #25b6d7;
--                color: white;
--                padding: 10px 20px;
--                border: none;
--                border-radius: 5px;
--                cursor: pointer;
--                font-size: 16px;
--            }
--
--            input[type="button"]:hover {
--                background-color: #197cc2;
--            }
-+            input[type="button"] {
-+                background: linear-gradient(45deg, #25b6d7, #dbf956);
-+                color: white;
-+                padding: 10px 20px;
-+                border: none;
-+                border-radius: 5px;
-+                cursor: pointer;
-+                font-size: 16px;
-+                transition: transform 0.2s;
-+                margin: 5px;
-+            }
-+
-+            input[type="button"]:hover {
-+                transform: scale(1.05);
-+            }
-+
-+            @keyframes color-shift {
-+                0% { color: #24cfd2; }
-+                50% { color: #dbf956; }
-+                100% { color: #24cfd2; }
-+            }
-+
-+            h1 {
-+                color: #24cfd2;
-+                margin-bottom: 20px;
-+                font-size: 24px;
-+                animation: color-shift 4s infinite;
-+            }
- 
-             #results {
-                 margin-top: 20px;
-                 font-size: 18px;
-             }
- 
-             #results p {
-                 margin: 5px 0;
-             }
-         </style>
-     </head>
- <body>
-     <div class="center">
--        <h1>CAlcUlaToR</h1>
--        <form id="calculatorForm">
--            <label for="num1">Number 1:</label>
--            <input type="number" id="num1" name="num1"><br><br>
--            
--            <label for="num2">Number 2:</label>
--            <input type="number" id="num2" name="num2"><br><br>
--            
--            <input type="button" value="Calculate" onclick="performCalculation()">
--        </form>
--        <div id="results"></div>
--    </div>
--
--    <script>
--        function cal(a, b) {
--            const add = a + b;
--            const sub = a - b;
--            const multi = a * b;
--            const div = a / b;
--            return [add, sub, multi, div];
--        }
--
--        function performCalculation() {
--            const num1 = parseFloat(document.getElementById('num1').value);
--            const num2 = parseFloat(document.getElementById('num2').value);
--
--            if (isNaN(num1) || isNaN(num2)) {
--                alert("Please enter valid numbers.");
--                return;
--            }
--
--            const [add, sub, multi, div] = cal(num1, num2);
--
--            document.getElementById('results').innerHTML = `
--                <p>Sum: ${add}</p>
--                <p>Subtraction: ${sub}</p>
--                <p>Multiplication: ${multi}</p>
--                <p>Division: ${div}</p>
--            `;
--        }
--    </script>
--</body>
--</html>
-+        <h1>🎉 CAlcUlaToR 🎉</h1>
-+        <form id="calculatorForm">
-+            <label for="num1">Number 1:</label>
-+            <input type="number" id="num1" name="num1"><br><br>
-+
-+            <label for="num2">Number 2:</label>
-+            <input type="number" id="num2" name="num2"><br><br>
-+
-+            <input type="button" value="Calculate" onclick="performCalculation()">
-+            <input type="button" value="Clear" onclick="clearForm()">
-+        </form>
-+        <div id="results"></div>
-+    </div>
-+
-+    <script>
-+        function cal(a, b) {
-+            const add = a + b;
-+            const sub = a - b;
-+            const multi = a * b;
-+            const div = a / b;
-+            const mod = a % b;
-+            const pow = a ** b;
-+            return [add, sub, multi, div, mod, pow];
-+        }
-+
-+        function performCalculation() {
-+            const num1 = parseFloat(document.getElementById('num1').value);
-+            const num2 = parseFloat(document.getElementById('num2').value);
-+
-+            if (isNaN(num1) || isNaN(num2)) {
-+                alert("Please enter valid numbers.");
-+                return;
-+            }
-+
-+            const [add, sub, multi, div, mod, pow] = cal(num1, num2);
-+
-+            const divResult = num2 === 0 ? 'Cannot divide by zero' : div;
-+            const modResult = num2 === 0 ? 'Cannot mod by zero' : mod;
-+
-+            document.getElementById('results').innerHTML = `
-+                <p>Sum: ${add}</p>
-+                <p>Subtraction: ${sub}</p>
-+                <p>Multiplication: ${multi}</p>
-+                <p>Division: ${divResult}</p>
-+                <p>Modulus: ${modResult}</p>
-+                <p>Power: ${pow}</p>
-+            `;
-+        }
-+
-+        function clearForm() {
-+            document.getElementById('calculatorForm').reset();
-+            document.getElementById('results').innerHTML = '';
-+        }
-+    </script>
-+</body>
-+</html>
- 
-EOF
-)
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+background-image: url('wow.png');
+                background-size: cover;
+                font-family: Arial, sans-serif;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .center {
+               background: rgba(255, 255, 255, 0.19);
+                border-radius: 16px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                padding: 30px;
+                text-align: center;
+                width: 300px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(4.8px);
+               -webkit-backdrop-filter: blur(4.8px);
+                border: 1px solid rgba(255, 255, 255, 0.71);
+            }
+
+            label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            input[type="number"] {
+                width: calc(100% - 22px);
+                padding: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #dbf956;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+            input[type="button"] {
+                background: linear-gradient(45deg, #25b6d7, #dbf956);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: transform 0.2s;
+                margin: 5px;
+            }
+
+            input[type="button"]:hover {
+                transform: scale(1.05);
+            }
+
+            @keyframes color-shift {
+                0% { color: #24cfd2; }
+                50% { color: #dbf956; }
+                100% { color: #24cfd2; }
+            }
+
+            h1 {
+                color: #24cfd2;
+                margin-bottom: 20px;
+                font-size: 24px;
+                animation: color-shift 4s infinite;
+            }
+
+            #results {
+                margin-top: 20px;
+                font-size: 18px;
+            }
+
+            #results p {
+                margin: 5px 0;
+            }
+        </style>
+    </head>
+<body>
+    <div class="center">
+        <h1>🎉 CAlcUlaToR 🎉</h1>
+        <form id="calculatorForm">
+            <label for="num1">Number 1:</label>
+            <input type="number" id="num1" name="num1"><br><br>
+
+            <label for="num2">Number 2:</label>
+            <input type="number" id="num2" name="num2"><br><br>
+
+            <input type="button" value="Calculate" onclick="performCalculation()">
+            <input type="button" value="Clear" onclick="clearForm()">
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function cal(a, b) {
+            const add = a + b;
+            const sub = a - b;
+            const multi = a * b;
+            const div = a / b;
+            const mod = a % b;
+            const pow = a ** b;
+            return [add, sub, multi, div, mod, pow];
+        }
+
+        function performCalculation() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+
+            if (isNaN(num1) || isNaN(num2)) {
+                alert("Please enter valid numbers.");
+                return;
+            }
+
+            const [add, sub, multi, div, mod, pow] = cal(num1, num2);
+
+            const divResult = num2 === 0 ? 'Cannot divide by zero' : div;
+            const modResult = num2 === 0 ? 'Cannot mod by zero' : mod;
+
+            document.getElementById('results').innerHTML = `
+                <p>Sum: ${add}</p>
+                <p>Subtraction: ${sub}</p>
+                <p>Multiplication: ${multi}</p>
+                <p>Division: ${divResult}</p>
+                <p>Modulus: ${modResult}</p>
+                <p>Power: ${pow}</p>
+            `;
+        }
+
+        function clearForm() {
+            document.getElementById('calculatorForm').reset();
+            document.getElementById('results').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
